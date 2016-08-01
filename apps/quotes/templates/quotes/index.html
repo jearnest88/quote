@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Belt Exam User Homepage</title>
+  </head>
+  <body>
+    <h1> Welcome, {{ request.session.name }}! </h1>
+    <form action='/' methods='POST'>
+      {% csrf_token %}
+      <input type='submit' value='Logout'>
+    </form>
+    <h2> Quotable Quotes:</h2>
+    {% for quote in quotes%}
+      <p> {{ quote.author }}: {{ quote.quote }}</p>
+      <p>Posted By: {{quote.user.name}}</p>
+      <form action='quotes/user/{{quote.user.id}}' method=POST>
+        {% csrf_token %}
+        <input type='submit' value='User Page'>
+      </form>
+      <form action='quotes/favorite/{{quote.id}}' method='POST'>
+        {% csrf_token %}
+        <input type='submit' value='Add to Favorites'>
+      </form>
+    {% endfor %}
+    <h2>Contribute a Quote:</h2>
+    <form action='/register_quote' method='post'>
+      {% csrf_token %}
+      <label for=''>Quote By:</label>
+      <input type='text' name='author'>
+      <labelfor=''>Message:</label>
+      <textarea name='quote' rows='8' cols='40'></textarea>
+      <input type='submit' value='Submit'>
+    </form>
+    {% if messages %}
+      {% for msg in messages %}
+      <li>
+        {{ msg.message }}
+      </li>
+      {% endfor %}
+    {% endif %}
+    <h2>Your Favorites: </h2>
+    {% for favorite in favorites %}
+      <p> {{favorite.quote.author}}: {{favorite.quote.quote}}</p>
+      <p>Posted By: {{favorite.quote.user.name}}</p>
+      <form action='quotes/user/{{favorite.user_id}}' method=POST>
+        {% csrf_token %}
+        <input type='submit' value='User Page'>
+      </form>
+      <form action='quotes/destroy/{{favorite.id}}' method='POST'>
+        {% csrf_token %}
+        <input type='submit' value='Remove From Favorites'>
+      </form>
+    {% endfor %}
+  </body>
+</html>

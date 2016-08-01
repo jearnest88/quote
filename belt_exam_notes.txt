@@ -1,0 +1,29 @@
+Models:
+
+User:
+Name
+Alias
+Email
+PW
+Confirm PW
+Date of Birth
+created_at
+updated_at
+
+Quotes:
+ForeignKey-User
+Quote
+Author
+created_at
+updated_at
+
+Favorites:
+ForeignKey-User
+ForeignKey-Quote
+created_at
+updated_at
+
+Not sure how to:
+
+-I got it all working!!! But i'm at the end of my time limit now so I can make it look
+ any better. But I did it!
